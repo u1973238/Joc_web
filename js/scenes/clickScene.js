@@ -50,11 +50,11 @@ class ClickScene extends Phaser.Scene
     }
     preload ()
     {
-        this.load.image("bomb", "../resources/cb.png");
+        this.load.image("bomb", "../resources/ClickAssets/enemi.png");
     }
     create()
     {
-
+        this.add.image(400, 300, 'bomb');
     }
     update ()
     {
