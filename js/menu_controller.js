@@ -1,17 +1,9 @@
-function start_game(){
-	name = prompt("User name");
-	
-	sessionStorage.setItem("username", name);
-	
-	loadpage("./html/game.html");
-}
-
 function platform_game(){
-	loadpage("./html/platform.html");
-}
+	name = prompt("User name");
 
-function phaser_game(){
-	loadpage("./html/phasergame.html");
+	sessionStorage.setItem("username", name);
+
+	loadpage("./html/platform.html");
 }
 
 function exit (){
