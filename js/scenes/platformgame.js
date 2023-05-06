@@ -11,6 +11,7 @@ class PlatformScene extends Phaser.Scene {
 		this.scoreText;
 		this.bombs = null;
 		this.gameOver = false;
+		this.pause = false;
     }
     preload (){	
 		this.load.image('sky', '../resources/starsassets/sky.png');
@@ -82,8 +83,15 @@ class PlatformScene extends Phaser.Scene {
 			this.scoreText = this.add.text(16, 16, 'Score: 0', 
 				{ fontSize: '32px', fill: '#000' });
 		}
+		this.pauseButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 	}
 	update (){	
+		if(this.pauseButton.isDown) pause = !pause;
+			
+		if(this.pause){
+			return;
+		}
+		
 		if (this.gameOver) return;
 		{ // Moviment
 			if (this.cursors.left.isDown){
@@ -102,6 +110,8 @@ class PlatformScene extends Phaser.Scene {
 			if (this.cursors.up.isDown && this.player.body.touching.down)
 				this.player.setVelocityY(-330);
 		}
+		
+		
 	}
 	collectStar(player, star){
 		star.disableBody(true, true);
@@ -126,7 +136,7 @@ class PlatformScene extends Phaser.Scene {
 		this.player.setTint(0xff0000);
 		this.player.anims.play('turn');
 		this.gameOver = true;
-		setTimeout(()=>loadpage("../"), 3000);
+		setTimeout(()=>loadpage("./click.html"), 1000);
 	}
 	enableAllStars(){
 		this.stars.children.iterate(child => 
