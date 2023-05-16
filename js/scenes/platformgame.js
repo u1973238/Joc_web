@@ -136,7 +136,7 @@ class PlatformScene extends Phaser.Scene {
 		this.player.setTint(0xff0000);
 		this.player.anims.play('turn');
 		this.gameOver = true;
-		setTimeout(()=>loadpage("./click.html"), 1000);
+		setTimeout(()=>loadpage("../Index.html"), 1000);
 	}
 	enableAllStars(){
 		this.stars.children.iterate(child => 
