@@ -34,7 +34,6 @@ class ClickScene extends Phaser.Scene
                     this.millis = "000";
                     this.canClick = false;
                     this.timerText.setText(this.secs + ":" + this.millis + " YOU LOST...");
-                    this.gameStage = 2;
                     setTimeout(()=>loadpage("../Index.html"), 3000);
                 }
                 else // NO s'ha acabat el temporitzador encara
@@ -47,7 +46,7 @@ class ClickScene extends Phaser.Scene
                         this.day++;
                         localStorage.setItem("day", this.day);
                         this.timerText.setText(this.secs + ":" + this.millis + " YOU WON!");
-                        this.gameStage = 2;
+                        setTimeout(()=>loadpage("../Index.html"), 1000);
                     }
                 }
             }
@@ -59,7 +58,6 @@ class ClickScene extends Phaser.Scene
 	{	
         this.load.image("back", "../resources/Click/backCookie.png");
 		this.load.image("cookie", "../resources/Click/cookie.png");
-		this.load.image("milk", "../resources/Click/milk.png");
 		this.load.image("boom", "../resources/Click/boom.png");
 		this.load.image("click", "../resources/Click/click.png");
 	}
@@ -131,7 +129,6 @@ class ClickScene extends Phaser.Scene
         this.clickText.displayHeight = 10;
         this.clickText.scaleX = this.clickText.scaleY
 
-        this.milk = this.add.sprite(900, 1050, "milk");
 
         this.pauseButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         this.canPressPause = true;
@@ -172,18 +169,7 @@ class ClickScene extends Phaser.Scene
 
             if (!this.paused)
             {
-                if (this.gameStage == 1)
-                {
-                    this.background.x += 0.4;
-                }
-                else // 2
-                {
-                    if (this.milk.y > 400)
-                    {
-                        this.milk.x -= 8;
-                        this.milk.y -= 5;
-                    }
-                }
+                this.background.x += 0.4;
 
                 this.spinBoom.angle += 0.5;
                 this.spinBoom.scale = Math.sin(this.spinBoom.rotation*4)/10+0.5;
