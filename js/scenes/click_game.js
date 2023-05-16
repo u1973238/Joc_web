@@ -12,7 +12,7 @@ class ClickScene extends Phaser.Scene
         this.secs;
         this.millis;
 
-        this.gameStage = 0; // 0: animacio inicial, 1: joc, 2: animacio final
+        this.gameStage = 0; // 0: animacio inicial, 1: joc
 
         this.canClick = false;
         this.cookieScale = 0.7;
@@ -43,8 +43,6 @@ class ClickScene extends Phaser.Scene
                         this.canPressPause = false;
                         this.timedEvent.paused = true;
                         this.canClick = false;
-                        this.day++;
-                        localStorage.setItem("day", this.day);
                         this.timerText.setText(this.secs + ":" + this.millis + " YOU WON!");
                         setTimeout(()=>loadpage("../Index.html"), 1000);
                     }
@@ -146,7 +144,7 @@ class ClickScene extends Phaser.Scene
             let x = 1-this.timedEvent.getProgress()
             this.clickText.scale = -2*x*x + 2*x;
         }
-        else // this.gameStage == 1 o 2
+        else // this.gameStage == 1
         {
             // D'aquesta manera nomes detecta el isDown com a un unic click
             if (this.pauseButton.isDown && this.canPressPause)
