@@ -12,6 +12,7 @@ class PlatformScene extends Phaser.Scene {
 		this.bombs = null;
 		this.gameOver = false;
 		this.pause = false;
+		this.jumpCount = 0;
     }
     preload (){	
 		this.load.image('sky', '../resources/starsassets/sky.png');
@@ -68,9 +69,7 @@ class PlatformScene extends Phaser.Scene {
 				child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8)));
 		}
 			this.bombs = this.physics.add.group(); // Grup d'enemics
-			this.createBomb(); //Determinar la dificultat
-			//if(dificultat==Normal)
-			//if(dificultat==Dificil)
+//			this.createBomb(); //Determinar la dificultat
 		{	// Definim les col·lisions i interaccions
 			this.physics.add.collider(this.player, this.platforms);
 			this.physics.add.collider(this.stars, this.platforms);
@@ -89,48 +88,6 @@ class PlatformScene extends Phaser.Scene {
 		this.pauseButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 	}
 	update (){	
-		
-			if (this.pauseButton.isDown) {
-			  this.pause = !this.pause; // Toggle pause menu
-			}
-		  
-			if (this.pause) {
-			  this.physics.pause();
-			}
-		  
-			if (this.gameOver) return;
-		  
-			if (!this.player.body.enable) {
-			  // Disable player control when time is paused
-			  this.player.setVelocityX(0);
-			  return;
-			}
-		  
-			// Double Jump
-			const canDoubleJump = this.player.body.touching.down || this.player.jumpCount < 2;
-			if (canDoubleJump && Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
-			  if (!this.player.body.touching.down) {
-				this.player.jumpCount++; // Increment jump count
-			  }
-			  this.player.setVelocityY(-330);
-			}
-		  
-			// Wall Run
-			const isTouchingWall = this.player.body.touching.left || this.player.body.touching.right;
-			if (isTouchingWall && Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
-			  this.player.setVelocityY(-330);
-			}
-		  
-			// Time Manipulation (Slow Down Time)
-			if (Phaser.Input.Keyboard.JustDown(this.slowDownTimeKey)) {
-			  this.scene.timeScale = 0.5; // Adjust the time scale as desired
-			}
-		  
-			// Time Manipulation (Rewind Time)
-			if (Phaser.Input.Keyboard.JustDown(this.rewindTimeKey)) {
-			  // Add logic to rewind time, restore player position, etc.
-			}
-
 		  
 		{ // Moviment
 			if (this.cursors.left.isDown){
@@ -146,8 +103,20 @@ class PlatformScene extends Phaser.Scene {
 				this.player.anims.play('turn');
 			}
 
-			if (this.cursors.up.isDown && this.player.body.touching.down)
-				this.player.setVelocityY(-330);
+			if (this.cursors.up.isDown) {
+				if (this.player.body.touching.down && this.jumpCount == 0) {
+					this.player.setVelocityY(-330);
+					this.jumpCount = 1;
+				} else if (this.jumpCount == 1) {
+					this.player.setVelocityY(-3300);
+					this.jumpCount = 2;
+				}
+			}
+		
+			if (this.player.body.touching.down) {
+				this.jumpCount = 0;
+			}
+		
 		}
 		
 		
@@ -180,6 +149,9 @@ class PlatformScene extends Phaser.Scene {
 	enableAllStars(){
 		this.stars.children.iterate(child => 
 			child.enableBody(true, child.x, 0, true, true));
+	}
+	canDoubleJump() {
+		return this.player.jumpCount < 20;
 	}
 }
 
