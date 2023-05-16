@@ -104,12 +104,12 @@ class PlatformScene extends Phaser.Scene {
 			}
 
 			if (this.cursors.up.isDown) {
-				if (this.player.body.touching.down && this.jumpCount == 0) {
+				if (this.player.body.touching.down) {
+					this.jumpCount = 0;
+				}
+				if (this.jumpCount < 2) { // Allowing up to two jumps
 					this.player.setVelocityY(-330);
-					this.jumpCount = 1;
-				} else if (this.jumpCount == 1) {
-					this.player.setVelocityY(-3300);
-					this.jumpCount = 2;
+					this.jumpCount++;
 				}
 			}
 		
