@@ -103,18 +103,24 @@ class PlatformScene extends Phaser.Scene {
 				this.player.anims.play('turn');
 			}
 
-			if (this.cursors.up.isDown) {
+			if (Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
 				if (this.player.body.touching.down) {
-					this.jumpCount = 0;
+					this.player.setVelocityY(-330);
+					this.score=this.jumpCount;
+					this.scoreText.setText('Score: ' + this.score);
 				}
-				if (this.jumpCount < 2) { // Allowing up to two jumps
+				else if (this.jumpCount < 1) { // Allowing up to two jumps
 					this.player.setVelocityY(-330);
 					this.jumpCount++;
+					this.score=this.jumpCount;
+					this.scoreText.setText('Score: ' + this.score);
 				}
 			}
 		
 			if (this.player.body.touching.down) {
 				this.jumpCount = 0;
+				this.score=this.jumpCount;
+				this.scoreText.setText('Score: ' + this.score);
 			}
 		
 		}
