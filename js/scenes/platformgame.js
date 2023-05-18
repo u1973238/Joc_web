@@ -19,6 +19,27 @@ class PlatformScene extends Phaser.Scene {
 		this.canDash = true;
 		this.DashCooldown = 1000;
 		this.lastDashTime = 0;
+
+		this.local_save = () =>
+		{
+			console.log(this);
+			let partida = {
+				username: this.username,
+				socre: this.score,
+				posX: this.player.x,
+				posY: this.player.y
+			}
+			console.log(partida);
+			let arrayPartides = [];
+			if(localStorage.partides){
+				arrayPartides = JSON.parse(localStorage.partides);
+				if(!Array.isArray(arrayPartides)) arrayPartides = [];
+			}
+			arrayPartides.push(partida);
+			console.log(arrayPartides);
+			localStorage.partides = JSON.stringify(arrayPartides);
+			loadpage("../index.html");
+		}
     }
     preload (){	
 		this.load.image('sky', '../resources/starsassets/sky.png');
