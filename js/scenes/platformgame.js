@@ -13,6 +13,12 @@ class PlatformScene extends Phaser.Scene {
 		this.gameOver = false;
 		this.pause = false;
 		this.jumpCount = 0;
+		this.canGroundPounding = false
+		this.isGroundPounding = false;
+		this.dashKey = null;
+		this.canDash = true;
+		this.DashCooldown = 1000;
+		this.lastDashTime = 0;
     }
     preload (){	
 		this.load.image('sky', '../resources/starsassets/sky.png');
@@ -69,7 +75,7 @@ class PlatformScene extends Phaser.Scene {
 				child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8)));
 		}
 			this.bombs = this.physics.add.group(); // Grup d'enemics
-//			this.createBomb(); //Determinar la dificultat
+			this.createBomb(); //Determinar la dificultat
 		{	// Definim les col·lisions i interaccions
 			this.physics.add.collider(this.player, this.platforms);
 			this.physics.add.collider(this.stars, this.platforms);
@@ -86,47 +92,78 @@ class PlatformScene extends Phaser.Scene {
 				{ fontSize: '32px', fill: '#000' });
 		}
 		this.pauseButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+		this.dashKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 	}
 	update (){	
 		  
 		{ // Moviment
-			if (this.cursors.left.isDown){
-				this.player.setVelocityX(-160);
-				this.player.anims.play('left', true);
+			if(!this.isGroundPounding){
+				if (this.cursors.left.isDown){
+					this.player.setVelocityX(-160);
+					this.player.anims.play('left', true);
+				}
+				else if (this.cursors.right.isDown){
+					this.player.setVelocityX(160);
+					this.player.anims.play('right', true);
+				}
+				else{
+					this.player.setVelocityX(0);
+					this.player.anims.play('turn');
 			}
-			else if (this.cursors.right.isDown){
-				this.player.setVelocityX(160);
-				this.player.anims.play('right', true);
-			}
-			else{
-				this.player.setVelocityX(0);
-				this.player.anims.play('turn');
+			
 			}
 
-			if (Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
+			if (Phaser.Input.Keyboard.JustDown(this.cursors.up)){
 				if (this.player.body.touching.down) {
 					this.player.setVelocityY(-330);
-					this.score=this.jumpCount;
-					this.scoreText.setText('Score: ' + this.score);
 				}
 				else if (this.jumpCount < 1) { // Allowing up to two jumps
 					this.player.setVelocityY(-330);
 					this.jumpCount++;
-					this.score=this.jumpCount;
-					this.scoreText.setText('Score: ' + this.score);
+					this.canGroundPounding = true;
 				}
 			}
-		
+			if (Phaser.Input.Keyboard.JustDown(this.cursors.down) && this.canGroundPounding){
+				this.isGroundPounding = true;
+				this.canGroundPounding = false;
+				this.player.setVelocityY(1000);
+			}
+			
+			if (Phaser.Input.Keyboard.JustDown(this.dashKey) && this.canDash) {
+				if (this.cursors.left.isDown) {
+					this.Dash(200);
+				} else if (this.cursors.right.isDown) {
+					this.Dash(-200);
+				}
+			}
+
+			if(!this.canDash){
+				const temps = this.time.now - this.lastDashTime;
+				if (temps >= this.DashCooldown){
+					this.canDash = true;
+				}
+			}
+			
 			if (this.player.body.touching.down) {
 				this.jumpCount = 0;
-				this.score=this.jumpCount;
-				this.scoreText.setText('Score: ' + this.score);
+				this.canGroundPounding = false;
+				this.isGroundPounding = false;
 			}
 		
 		}
 		
+
 		
 	}
+	Dash(distance){
+		const newX = this.player.x - distance;
+		this.player.setX(newX);
+
+		this.canDash = false;
+
+		this.lastDashTime = this.time.now;
+	}
+
 	collectStar(player, star){
 		star.disableBody(true, true);
 		this.score += 10;
@@ -144,13 +181,19 @@ class PlatformScene extends Phaser.Scene {
         bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
 	}
 	hitBomb(player, bomb){
-		if (this.gameOver) 
-			return;
-		this.physics.pause();
-		this.player.setTint(0xff0000);
-		this.player.anims.play('turn');
-		this.gameOver = true;
-		setTimeout(()=>loadpage("../Index.html"), 1000);
+		if(this.isGroundPounding){
+			bomb.disableBody(true, true);
+		}
+		else{
+			if (this.gameOver) 
+				return;
+			this.physics.pause();
+			this.player.setTint(0xff0000);
+			this.player.anims.play('turn');
+			this.gameOver = true;
+			setTimeout(()=>loadpage("../Index.html"), 1000);
+		}
+
 	}
 	enableAllStars(){
 		this.stars.children.iterate(child => 
