@@ -63,7 +63,7 @@ class PlatformScene extends Phaser.Scene {
 		}
 		{	// Creem player i definim animacions
 			this.player = this.physics.add.sprite(100, 450, 'dude');
-			this.player.setBounce(0.2);
+			//this.player.setBounce(0.2);
 			this.player.setCollideWorldBounds(true);
 			
 			this.anims.create({
@@ -192,10 +192,9 @@ class PlatformScene extends Phaser.Scene {
 				else if (this.jumpCount < 1) { // Allowing up to two jumps
 					this.player.setVelocityY(-330);
 					this.jumpCount++;
-					this.canGroundPounding = true;
 				}
 			}
-			if (Phaser.Input.Keyboard.JustDown(this.cursors.down) && this.canGroundPounding){
+			if (Phaser.Input.Keyboard.JustDown(this.cursors.down) && !this.player.body.touching.down){
 				this.isGroundPounding = true;
 				this.canGroundPounding = false;
 				this.player.setVelocityY(1000);
@@ -219,7 +218,6 @@ class PlatformScene extends Phaser.Scene {
 			
 			if (this.player.body.touching.down) {
 				this.jumpCount = 0;
-				this.canGroundPounding = false;
 				this.isGroundPounding = false;
 			}
 		
