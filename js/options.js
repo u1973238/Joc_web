@@ -14,28 +14,19 @@ var options = function(){
 	var vue_instance = new Vue({
 		el: "#options_id",
 		data: {
-			num: 2,
 			dificulty: "normal"
 		},
 		created: function(){
-			this.num = options_data.cards;
 			this.dificulty = options_data.dificulty;
 		},
 		watch: {
-			num: function(value){
-				if (value < 2)
-					this.num = 2;
-				else if (value > 4)
-					this.num = 4;
-			}
+			//no cal res
 		},
 		methods: { 
 			discard: function(){
-				this.num = options_data.cards;
 				this.dificulty = options_data.dificulty;
 			},
 			save: function(){
-				options_data.cards = this.num;
 				options_data.dificulty = this.dificulty;
 				save();
 				loadpage("../");
@@ -46,9 +37,6 @@ var options = function(){
 		// Aquí dins hi ha la part pública de l'objecte
 		getOptionsString: function (){
 			return JSON.stringify(options_data);
-		},
-		getNumOfCards: function (){
-			return options_data.cards;
 		},
 		getDificulty: function (){
 			return options_data.dificulty;
