@@ -20,26 +20,32 @@ class PlatformScene extends Phaser.Scene {
 		this.DashCooldown = 1000;
 		this.lastDashTime = 0;
 
-		this.local_save = () =>
-		{
-			console.log(this);
-			let partida = {
-				username: this.username,
-				socre: this.score,
-				posX: this.player.x,
-				posY: this.player.y
-			}
-			console.log(partida);
-			let arrayPartides = [];
-			if(localStorage.partides){
-				arrayPartides = JSON.parse(localStorage.partides);
-				if(!Array.isArray(arrayPartides)) arrayPartides = [];
-			}
-			arrayPartides.push(partida);
-			console.log(arrayPartides);
-			localStorage.partides = JSON.stringify(arrayPartides);
-			loadpage("../index.html");
-		}
+		this.local_save = () => {
+            let partida = {
+                username: this.username,
+                score: this.score,
+                posX: this.player.x,
+                posY: this.player.y
+            };
+
+            let arrayPartides = [];
+
+            if (localStorage.partides) {
+                arrayPartides = JSON.parse(localStorage.partides);
+                if (!Array.isArray(arrayPartides)) {
+                    arrayPartides = [];
+                }
+            }
+
+            arrayPartides.push(partida);
+            localStorage.partides = JSON.stringify(arrayPartides);
+
+            // Call the saveGameState function
+            this.saveGameState();
+
+            // Redirect to the menu page
+            this.goMenu();
+        };
     }
     preload (){	
 		this.load.image('sky', '../resources/starsassets/sky.png');
@@ -51,6 +57,7 @@ class PlatformScene extends Phaser.Scene {
 			'../resources/starsassets/dude.png',
 			{ frameWidth: 32, frameHeight: 48 }
 		);
+		
 	}
     create (){	
 		this.add.image(400, 300, 'sky');
@@ -138,7 +145,7 @@ class PlatformScene extends Phaser.Scene {
 		this.saveButton.setOrigin(0.5);
 		this.saveButton.setInteractive();
 		this.saveButton.on('pointerdown', () => {
-			this.save();
+			this.saveGameState();
 		});
 
 		this.overlayMenu.setVisible(false);
@@ -166,8 +173,6 @@ class PlatformScene extends Phaser.Scene {
 			}
 		}
 		
-		
-
 		{ // Moviment
 			if(!this.isGroundPounding){
 				if (this.cursors.left.isDown){
@@ -270,9 +275,7 @@ class PlatformScene extends Phaser.Scene {
 		this.stars.children.iterate(child => 
 			child.enableBody(true, child.x, 0, true, true));
 	}
-	canDoubleJump() {
-		return this.player.jumpCount < 20;
-	}
+
 	resumeGame() {
 		this.pause = false;
 		this.physics.resume();
@@ -284,8 +287,27 @@ class PlatformScene extends Phaser.Scene {
 	goMenu() {
 		loadpage("../Index.html");
 	}
-	save() {
-		loadpage("../Index.html");
-	}
-}
+	saveGameState() {
+        const gameState = {
+			username: this.username,
+            score: this.score,
+			posX: this.player.x,
+			posY: this.player.y
+        };
 
+        const gameStateJSON = JSON.stringify(gameState);
+        localStorage.setItem('gameState', gameStateJSON);
+    }
+	loadGameState() {
+        const gameStateJSON = localStorage.getItem('gameState');
+
+        if (gameStateJSON) {
+            const gameState = JSON.parse(gameStateJSON);
+
+			this.username = gameState.username;
+            this.score = gameState.score;
+            this.player.x = gameState.posX;
+			this.player.y = gameState.posY;
+        }
+    }
+}
