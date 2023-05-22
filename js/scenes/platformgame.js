@@ -116,7 +116,17 @@ class PlatformScene extends Phaser.Scene {
 		this.dashKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 	}
 	update (){	
-		  
+		if (Phaser.Input.Keyboard.JustDown(this.pauseButton)) {
+			this.pause = !this.pause; 
+		
+			if (this.pause) {
+				this.physics.pause();
+			} else {
+				this.physics.resume();
+			}
+		}
+		
+
 		{ // Moviment
 			if(!this.isGroundPounding){
 				if (this.cursors.left.isDown){
