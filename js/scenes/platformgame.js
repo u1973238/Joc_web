@@ -114,17 +114,58 @@ class PlatformScene extends Phaser.Scene {
 		}
 		this.pauseButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 		this.dashKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+		this.overlayMenu = this.add.graphics();
+		this.overlayMenu.fillStyle(0x000000, 0.5); // Black color with 50% opacity
+		this.overlayMenu.fillRect(0, 0, this.cameras.main.width, this.cameras.main.height);
+
+		this.resumeButton = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 + 40, 'Resume', { fontSize: '32px', fill: '#fff' });
+		this.resumeButton.setOrigin(0.5);
+		this.resumeButton.setInteractive();
+		this.resumeButton.on('pointerdown', () => {
+			this.resumeGame();
+		});
+
+		this.menuButton = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 - 40, 'Menu', { fontSize: '32px', fill: '#fff' });
+		this.menuButton.setOrigin(0.5);
+		this.menuButton.setInteractive();
+
+		this.menuButton.on('pointerdown', () => {
+			this.goMenu();
+		});
+
+		this.saveButton = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, 'Save', { fontSize: '32px', fill: '#fff' });
+		this.saveButton.setOrigin(0.5);
+		this.saveButton.setInteractive();
+		this.saveButton.on('pointerdown', () => {
+			this.save();
+		});
+
+		this.overlayMenu.setVisible(false);
+		this.resumeButton.setVisible(false);
+		this.menuButton.setVisible(false);
+		this.saveButton.setVisible(false);
+
 	}
 	update (){	
 		if (Phaser.Input.Keyboard.JustDown(this.pauseButton)) {
-			this.pause = !this.pause; 
+			this.pause = !this.pause; // Toggle the pause state
 		
 			if (this.pause) {
 				this.physics.pause();
+				this.overlayMenu.setVisible(true);
+				this.resumeButton.setVisible(true);
+				this.menuButton.setVisible(true);
+				this.saveButton.setVisible(true);
 			} else {
 				this.physics.resume();
+				this.overlayMenu.setVisible(false);
+				this.resumeButton.setVisible(false);
+				this.menuButton.setVisible(false);
+				this.saveButton.setVisible(false);
 			}
 		}
+		
 		
 
 		{ // Moviment
@@ -233,6 +274,20 @@ class PlatformScene extends Phaser.Scene {
 	}
 	canDoubleJump() {
 		return this.player.jumpCount < 20;
+	}
+	resumeGame() {
+		this.pause = false;
+		this.physics.resume();
+		this.overlayMenu.setVisible(false);
+		this.resumeButton.setVisible(false);
+		this.menuButton.setVisible(false);
+		this.saveButton.setVisible(false);
+	}
+	goMenu() {
+		loadpage("../Index.html");
+	}
+	save() {
+		loadpage("../Index.html");
 	}
 }
 
