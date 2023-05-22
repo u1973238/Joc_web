@@ -148,6 +148,7 @@ class PlatformScene extends Phaser.Scene {
 				this.isGroundPounding = true;
 				this.canGroundPounding = false;
 				this.player.setVelocityY(1000);
+				this.player.setVelocityX(0);
 			}
 			
 			if (Phaser.Input.Keyboard.JustDown(this.dashKey) && this.canDash) {
