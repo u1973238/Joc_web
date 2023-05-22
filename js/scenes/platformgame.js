@@ -3,6 +3,7 @@
 class PlatformScene extends Phaser.Scene {
     constructor (){
         super('PlatformScene');
+		this.username = "";
 		this.platforms = null;
 		this.player = null;
 		this.cursors = null;
@@ -13,7 +14,6 @@ class PlatformScene extends Phaser.Scene {
 		this.gameOver = false;
 		this.pause = false;
 		this.jumpCount = 0;
-		this.canGroundPounding = false
 		this.isGroundPounding = false;
 		this.dashKey = null;
 		this.canDash = true;
@@ -23,27 +23,20 @@ class PlatformScene extends Phaser.Scene {
 		this.local_save = () => {
             let partida = {
                 username: this.username,
-                score: this.score,
-                posX: this.player.x,
-                posY: this.player.y
+                score: this.score
             };
-
+			console.log(partida);
             let arrayPartides = [];
 
-            if (localStorage.partides) {
-                arrayPartides = JSON.parse(localStorage.partides);
-                if (!Array.isArray(arrayPartides)) {
-                    arrayPartides = [];
-                }
-            }
+            if(localStorage.partides){
+				arrayPartides = JSON.parse(localStorage.partides);
+				if(!Array.isArray(arrayPartides)) arrayPartides = [];
+			}
 
             arrayPartides.push(partida);
+			console.log(arrayPartides);
             localStorage.partides = JSON.stringify(arrayPartides);
 
-            // Call the saveGameState function
-            this.saveGameState();
-
-            // Redirect to the menu page
             this.goMenu();
         };
     }
@@ -145,13 +138,51 @@ class PlatformScene extends Phaser.Scene {
 		this.saveButton.setOrigin(0.5);
 		this.saveButton.setInteractive();
 		this.saveButton.on('pointerdown', () => {
-			this.saveGameState();
+			this.local_save(); 
 		});
 
 		this.overlayMenu.setVisible(false);
 		this.resumeButton.setVisible(false);
 		this.menuButton.setVisible(false);
 		this.saveButton.setVisible(false);
+
+		let l_partida = null;
+
+		if (sessionStorage.idPartida && localStorage.partides)
+		{
+			console.log("exiteix la partida");
+			let arrayPartides = JSON.parse(localStorage.partides);
+			if (sessionStorage.idPartida < arrayPartides.length)
+				l_partida = arrayPartides[sessionStorage.idPartida];
+		}
+
+		if (l_partida){
+			this.username = l_partida.username,
+			this.score = l_partida.score
+			console.log("partida found");
+		}
+		else{
+			var json = localStorage.getItem("config") || '{"dificulty": "hard"}';
+			var options_data = JSON.parse(json);
+
+			switch (options_data.dificulty)
+			{
+				case "easy":
+					this.dif_mult = 10;
+					break;
+
+				case "normal":
+					this.dif_mult = 20;
+					break;
+
+				case "hard":
+					this.dif_mult = 40;
+			}
+					
+			this.username = localStorage.getItem("username","unknown");
+			this.score = localStorage.getItem("score",0);
+		}
+		sessionStorage.clear();
 
 	}
 	update (){	
@@ -243,7 +274,7 @@ class PlatformScene extends Phaser.Scene {
 	collectStar(player, star){
 		star.disableBody(true, true);
 		this.score += 10;
-		this.scoreText.setText('Score: ' + this.score);
+		this.scoreText.setText('Score: ' + this.score + ' username ' + this.username);
 		if (this.stars.countActive(true) === 0){
 			this.enableAllStars();
 			this.createBomb();
