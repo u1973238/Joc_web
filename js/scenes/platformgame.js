@@ -23,7 +23,9 @@ class PlatformScene extends Phaser.Scene {
 		this.local_save = () => {
             let partida = {
                 username: this.username,
-                score: this.score
+                score: this.score,
+				PosX: this.player.x,
+				PosY: this.player.y
             };
 			console.log(partida);
             let arrayPartides = [];
@@ -158,7 +160,10 @@ class PlatformScene extends Phaser.Scene {
 
 		if (l_partida){
 			this.username = l_partida.username,
-			this.score = l_partida.score
+			this.score = l_partida.score,
+			this.player.x = l_partida.PosX,
+			this.player.y = l_partida.PosY
+			this.scoreText.setText('Score: ' + this.score);
 			console.log("partida found");
 		}
 		else{
@@ -168,15 +173,15 @@ class PlatformScene extends Phaser.Scene {
 			switch (options_data.dificulty)
 			{
 				case "easy":
-					this.dif_mult = 10;
+					this.dif_mult = 1;
 					break;
 
 				case "normal":
-					this.dif_mult = 20;
+					this.dif_mult = 2;
 					break;
 
 				case "hard":
-					this.dif_mult = 40;
+					this.dif_mult = 4;
 			}
 					
 			this.username = localStorage.getItem("username","unknown");
@@ -274,7 +279,7 @@ class PlatformScene extends Phaser.Scene {
 	collectStar(player, star){
 		star.disableBody(true, true);
 		this.score += 10;
-		this.scoreText.setText('Score: ' + this.score + ' username ' + this.username);
+		this.scoreText.setText('Score: ' + this.score);
 		if (this.stars.countActive(true) === 0){
 			this.enableAllStars();
 			this.createBomb();
