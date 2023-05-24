@@ -5,21 +5,31 @@
 		<script src="./js/loader.js"></script>
 		<script src="./js/game_info.js"></script>
 		<script src="./js/menu_controller.js"></script>
-		<title> Plataform game - Menu </title>
-	</head>
+		<title> Platform game - Menu </title>
+	</head> 
 	<body>
-		<p class="menu-object" id="title">Memory menu</p>
+		
+		<div id="Game-title">
+			<img class="menu-object" id="Ilogo" onmouseover="imgAnim(this)" onmouseout="imgStill(this)" src="./resources/logo.svg" alt="Logo" width="200px" height="200px">
+
+			<div id="Title-letters">
+				<p class="menu-object" id="title" style="text-align: start;">PLATFORM </p>
+				<p class="menu-object" id="title" style="text-align: start;">GAME</p>
+			</div>
+
+		</div>
+
 		<button class="menu-object" onclick="platform_game()"> 
-			Platform Game 
+			PLATAFORM GAME 
 		</button>
 		<button class="menu-object" onclick="load()"> 
-			Load Game 
+			LOAD GAME 
 		</button>
 		<button class="menu-object" onclick="options()"> 
-			Options 
+			OPTIONS 
 		</button>
 		<button class="menu-object" onclick="exit()"> 
-			Exit 
+			EXIT 
 		</button>
 	</body>
 </html>
