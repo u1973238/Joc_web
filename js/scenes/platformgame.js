@@ -102,6 +102,7 @@ class PlatformScene extends Phaser.Scene {
 			this.bombs = this.physics.add.group(); // Grup d'enemics
 			this.createBomb();
 
+
 			this.enemy = this.physics.add.group();
 			this.enemy = this.createEnemy();
 			
@@ -129,8 +130,11 @@ class PlatformScene extends Phaser.Scene {
 		this.overlayMenu = this.add.graphics();
 		this.overlayMenu.fillStyle(0x000000, 0.5); // Black color with 50% opacity
 		this.overlayMenu.fillRect(0, 0, this.cameras.main.width, this.cameras.main.height);
+		
+		this.PauseTitle = this.add.text(this.cameras.main.width / 2 - 100, this.cameras.main.height / 2 - 140, 'PAUSE', { fontSize: '70px', fill: '#fff' });
+		this.PauseTitle.setStyle({ fill: '#ff6600' });
 
-		this.resumeButton = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 + 40, 'Resume', { fontSize: '32px', fill: '#fff' });
+		this.resumeButton = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 + 40, 'RESUME', { fontSize: '32px', fill: '#fff' });
 		this.resumeButton.setOrigin(0.5);
 		this.resumeButton.setInteractive();
 		this.resumeButton.on('pointerdown', () => {
@@ -143,7 +147,7 @@ class PlatformScene extends Phaser.Scene {
 			this.resumeButton.setFill('#fff');
 		});
 
-		this.menuButton = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 - 40, 'Menu', { fontSize: '32px', fill: '#fff' });
+		this.menuButton = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 - 40, 'MENU', { fontSize: '32px', fill: '#fff' });
 		this.menuButton.setOrigin(0.5);
 		this.menuButton.setInteractive();
 		this.menuButton.on('pointerdown', () => {
@@ -156,7 +160,7 @@ class PlatformScene extends Phaser.Scene {
 			this.menuButton.setFill('#fff');
 		});
 
-		this.saveButton = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, 'Save', { fontSize: '32px', fill: '#fff' });
+		this.saveButton = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, 'SAVE', { fontSize: '32px', fill: '#fff' });
 		this.saveButton.setOrigin(0.5);
 		this.saveButton.setInteractive();
 		this.saveButton.on('pointerdown', () => {
@@ -207,7 +211,7 @@ class PlatformScene extends Phaser.Scene {
 					break;
 
 				case "hard":
-					this.dif_mult = 4;
+					this.dif_mult = 3;
 			}
 					
 			this.username = localStorage.getItem("username","unknown");
@@ -318,7 +322,10 @@ class PlatformScene extends Phaser.Scene {
 		this.scoreText.setText('Score: ' + this.score);
 		if (this.stars.countActive(true) === 0){
 			this.enableAllStars();
-			this.createBomb();
+			this.dif_mult = this.dif_mult + 1
+			for (let i = 0; i <= this.diff_mult; i++) {
+				this.createBomb();
+			}
 		}
 	}
 	createBomb(){
