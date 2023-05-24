@@ -37,3 +37,12 @@ button.menu-object:hover:not(:active){
 	height: 85px;
 }
 
+body
+{
+	background-color: #ddeeee;
+	background-image: url("../resources/BackgroundTitle.png");
+	background-position: center;
+	height: 900px;
+	/*background-repeat: no-repeat;*/
+	background-size: cover;
+}
