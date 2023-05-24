@@ -54,7 +54,8 @@ class PlatformScene extends Phaser.Scene {
 			'../resources/dude.png',
 			{ frameWidth: 32, frameHeight: 48 }
 		);
-		
+		this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
+
 	}
     create (){	
 		this.add.image(400, 300, 'sky');
@@ -127,52 +128,67 @@ class PlatformScene extends Phaser.Scene {
 		this.pauseButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 		this.dashKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
+		WebFont.load({
+			custom: {
+			  families: ['Alien Encounters'],
+			  urls: ['../resources/fonts/Alien-Encounters-Regular.ttf']
+			}
+		  });
+
 		this.overlayMenu = this.add.graphics();
 		this.overlayMenu.fillStyle(0x000000, 0.5); // Black color with 50% opacity
 		this.overlayMenu.fillRect(0, 0, this.cameras.main.width, this.cameras.main.height);
 		
-		this.PauseTitle = this.add.text(this.cameras.main.width / 2 - 100, this.cameras.main.height / 2 - 140, 'PAUSE', { fontSize: '70px', fill: '#fff' });
-		this.PauseTitle.setStyle({ fill: '#ff6600' });
+		this.PauseTitle = this.add.text(this.cameras.main.width / 2 - 210 , this.cameras.main.height / 2 - 250, 'PAUSE', { fontSize: '70px', fill: '#fff' });
+		this.PauseTitle.setStyle({ fill: '#ff7e00' });
+		this.PauseTitle.setFont('150px Alien Encounters');
 
-		this.resumeButton = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 + 40, 'RESUME', { fontSize: '32px', fill: '#fff' });
+		this.resumeButton = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 + 50, 'RESUME', { fontSize: '32px', fill: '#00ff00' });
 		this.resumeButton.setOrigin(0.5);
 		this.resumeButton.setInteractive();
 		this.resumeButton.on('pointerdown', () => {
 			this.resumeGame();
 		});
 		this.resumeButton.on('pointerover', () => {
-			this.resumeButton.setFill('#ff0000');
+			this.resumeButton.setFill('#ff7e00');
+			this.resumeButton.setFont('bold 32px Alien Encounters');
 		});
 		this.resumeButton.on('pointerout', () => {
-			this.resumeButton.setFill('#fff');
+			this.resumeButton.setFill('#00ff00');
+			this.resumeButton.setFont('32px Alien Encounters');
 		});
 
-		this.menuButton = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 - 40, 'MENU', { fontSize: '32px', fill: '#fff' });
+		this.menuButton = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 - 50, 'MENU', { fontSize: '32px', fill: '#00ff00' });
 		this.menuButton.setOrigin(0.5);
 		this.menuButton.setInteractive();
 		this.menuButton.on('pointerdown', () => {
 			this.goMenu();
 		});
 		this.menuButton.on('pointerover', () => {
-			this.menuButton.setFill('#ff0000');
+			this.menuButton.setFill('#ff7e00');
+			this.menuButton.setFont('bold 32px Alien Encounters');
 		});
 		this.menuButton.on('pointerout', () => {
-			this.menuButton.setFill('#fff');
+			this.menuButton.setFill('#00ff00');
+			this.menuButton.setFont('32px Alien Encounters');
 		});
 
-		this.saveButton = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, 'SAVE', { fontSize: '32px', fill: '#fff' });
+		this.saveButton = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, 'SAVE', { fontSize: '32px', fill: '#00ff00' });
 		this.saveButton.setOrigin(0.5);
 		this.saveButton.setInteractive();
 		this.saveButton.on('pointerdown', () => {
 			this.local_save(); 
 		});
 		this.saveButton.on('pointerover', () => {
-			this.saveButton.setFill('#ff0000');
+			this.saveButton.setFill('#ff7e00');
+			this.saveButton.setFont('bold 32px Alien Encounters');
 		});
 		this.saveButton.on('pointerout', () => {
-			this.saveButton.setFill('#fff');
+			this.saveButton.setFill('#00ff00');
+			this.saveButton.setFont('32px Alien Encounters');
 		});
 
+		this.PauseTitle.setVisible(false)
 		this.overlayMenu.setVisible(false);
 		this.resumeButton.setVisible(false);
 		this.menuButton.setVisible(false);
@@ -226,12 +242,14 @@ class PlatformScene extends Phaser.Scene {
 		
 			if (this.pause) {
 				this.physics.pause();
+				this.PauseTitle.setVisible(true)
 				this.overlayMenu.setVisible(true);
 				this.resumeButton.setVisible(true);
 				this.menuButton.setVisible(true);
 				this.saveButton.setVisible(true);
 			} else {
 				this.physics.resume();
+				this.PauseTitle.setVisible(false)
 				this.overlayMenu.setVisible(false);
 				this.resumeButton.setVisible(false);
 				this.menuButton.setVisible(false);
@@ -322,10 +340,8 @@ class PlatformScene extends Phaser.Scene {
 		this.scoreText.setText('Score: ' + this.score);
 		if (this.stars.countActive(true) === 0){
 			this.enableAllStars();
-			this.dif_mult = this.dif_mult + 1
-			for (let i = 0; i <= this.diff_mult; i++) {
-				this.createBomb();
-			}
+			this.dif_mult = this.dif_mult + 0.5
+			this.createBomb();
 		}
 	}
 	createBomb(){
