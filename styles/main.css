@@ -8,51 +8,126 @@
 	src: url("../resources/fonts/alarm\ clock.ttf");
 }
 
-input[type=number]{
-	height: 3rem;
-    font-size: 1.3rem;
-    font-weight: bold;
-    width: 3rem;
-    text-align: center;
-}
-
-#title{
-	font-size: 26px;
-	line-height: 75px;
-}
-
-.menu-object{
-	display:block;
-	margin-left: auto;
-	margin-right: auto;
-	width: 300px;
-	height: 75px;
-	font-size: 16px;
-	margin-top: 10px;
-}
-
-p{
-	text-align: center;
-}
-
-button.menu-object:active{
-	font-size: 18px;
-	width: 275px;
-	height: 70px;
-}
-
-button.menu-object:hover:not(:active){
-	font-size: 22px;
-	width: 325px;
-	height: 85px;
-}
-
 body
 {
 	background-color: #ddeeee;
-	background-image: url("../resources/BackgroundTitle.png");
+	background-image: url("../resources/backgrown.jpg");
 	background-position: center;
 	height: 900px;
-	/*background-repeat: no-repeat;*/
 	background-size: cover;
+}
+
+a.menu-object
+{
+	text-decoration: none;
+	color: #1eb2fc;
+	background-color: #000000;
+	border: 7px solid #506274;
+	height: fit-content;
+	width: fit-content;
+	padding: 1em;
+}
+
+#title
+{
+	font-family: titleIS;
+	height: auto;
+	width: auto;
+	font-size: 8em;
+	line-height: 0.7em;
+	color: #ffae3e;
+	text-align: center;
+	margin-left: 0px;
+	text-shadow: 0px 0px 10px #ff7e00;
+	letter-spacing: 5px;
+}
+
+#Game-title
+{
+	display: flex;
+	flex-direction: row;
+	align-content: flex-start;
+	margin: auto;
+}
+
+#Title-letters
+{
+	margin: auto auto auto 0px;
+	width: auto;
+}
+
+#Ilogo
+{
+	height: 15em;
+	width: auto;
+	float: right;
+	margin: 0px 0px auto auto;
+}
+
+.menu-object
+{
+	color: rgb(61, 228, 46);
+	display: block;
+	margin: 2vh auto;
+	width: 325px;
+	height: 75px;
+	font-size: 1.4em;
+	font-family: digital;
+	text-align: center;
+}
+
+p, h1
+{
+	text-align: center;
+	font-family: monospace;
+}
+
+button.menu-object
+{
+	background-color: #000000;
+	border: 7px solid #506274;
+
+	cursor: pointer;
+}
+
+button.menu-object:active, a.menu-object:active
+{
+	border-color: #ffae3e;
+	text-shadow: 0px 0px 7px rgb(61, 228, 46);
+}
+
+
+button.menu-object:hover:not(:active), a.menu-object:hover:not(:active)
+{
+	font-weight: bold;
+	text-shadow: 0px 0px 7px rgb(61, 228, 46);
+}
+
+#game, #game_area
+{
+	width: auto;
+	margin: 3em auto;
+	display: flex;
+	justify-content: center;
+}
+
+canvas
+{
+	border-style: solid;
+	border-width: 10px;
+}
+
+#game img
+{
+	margin-right: 10px;
+	width: 200px;
+}
+
+#dif-sel
+{
+	margin: 5em auto;
+	height: fit-content;
+	background-color: #000000;
+	padding: 1em;
+	border: 7px solid #506274;
 }
