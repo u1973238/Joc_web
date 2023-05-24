@@ -13,6 +13,9 @@
 					{{save.username}} 
 				</button>
 			</div>
+			<button class="menu-object" v-if="saves.length != 0" v-on:click="delAll()"> 
+				DELETE SAVES
+			</button>
 		</div>
 		<a class="menu-object" href="../">GoToMenu</a>
 	</body>
