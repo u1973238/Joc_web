@@ -44,14 +44,14 @@ class PlatformScene extends Phaser.Scene {
         };
     }
     preload (){	
-		this.load.image('sky', '../resources/starsassets/sky.png');
-		this.load.image('ground', '../resources/starsassets/platform.png');
-		this.load.image('star', '../resources/starsassets/star.png');
-		this.load.image('bomb', '../resources/starsassets/bomb.png');
-		this.load.image('enemic', '../resources/starsassets/enemic.png');
+		this.load.image('sky', '../resources/sky.png');
+		this.load.image('ground', '../resources/platform.png');
+		this.load.image('star', '../resources/star.png');
+		this.load.image('bomb', '../resources/bomb.png');
+		this.load.image('enemic', '../resources/enemic.png');
 		
 		this.load.spritesheet('dude',
-			'../resources/starsassets/dude.png',
+			'../resources/dude.png',
 			{ frameWidth: 32, frameHeight: 48 }
 		);
 		
