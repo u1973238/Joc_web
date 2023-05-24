@@ -21,3 +21,12 @@ function load(){
 	loadpage("./html/load.html");
 }
 
+function imgAnim(logo)
+{
+	logo.src = "./resources/logo_anim.gif"
+}
+
+function imgStill(logo)
+{
+	logo.src = "./resources/logo.svg"
+}
