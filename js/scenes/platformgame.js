@@ -293,13 +293,11 @@ class PlatformScene extends Phaser.Scene {
 		const directionX = this.player.x - this.enemy.x;
 		const directionY = this.player.y - this.enemy.y;
 
-		// Normalize the direction vector
 		const length = Math.sqrt(directionX * directionX + directionY * directionY);
 		const normalizedDirectionX = directionX / length;
 		const normalizedDirectionY = directionY / length;
 
-		// Set the enemy's velocity based on the normalized direction vector
-		const speed = 100; // Adjust the speed as needed
+		const speed = 100 * this.dif_mult; 
 		const enemicX = normalizedDirectionX * speed;
 		const enemicY = normalizedDirectionY * speed;
 		this.enemy.setVelocity(enemicX, enemicY);
