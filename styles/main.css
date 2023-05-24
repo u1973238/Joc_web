@@ -1,3 +1,13 @@
+@font-face {
+	font-family: titleIS;
+	src: url("../resources/fonts/Alien-Encounters-Regular.ttf");
+}
+
+@font-face {
+	font-family: digital;
+	src: url("../resources/fonts/alarm\ clock.ttf");
+}
+
 input[type=number]{
 	height: 3rem;
     font-size: 1.3rem;
