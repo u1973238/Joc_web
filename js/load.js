@@ -16,6 +16,15 @@ var load_obj = function(){
 			load: function(i){
 				sessionStorage.idPartida = i;
 				loadpage("../html/platform.html");
+			},
+			delAll: function()
+			{
+				var confirm = prompt('Are you sure you want to DELETE ALL SAVE FILES?\nType "CONFIRM" to proceed.');
+				if(confirm == "CONFIRM") // Al apretar cancel o fallar, no fa res
+				{
+					localStorage.removeItem("partides");
+					location.reload();
+				}
 			}
 		}
 	});
