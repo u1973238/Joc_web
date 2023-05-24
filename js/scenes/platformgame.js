@@ -19,6 +19,7 @@ class PlatformScene extends Phaser.Scene {
 		this.canDash = true;
 		this.DashCooldown = 1000;
 		this.lastDashTime = 0;
+		this.enemy = null;
 
 		this.local_save = () => {
             let partida = {
@@ -47,6 +48,7 @@ class PlatformScene extends Phaser.Scene {
 		this.load.image('ground', '../resources/starsassets/platform.png');
 		this.load.image('star', '../resources/starsassets/star.png');
 		this.load.image('bomb', '../resources/starsassets/bomb.png');
+		this.load.image('enemic', '../resources/starsassets/enemic.png');
 		
 		this.load.spritesheet('dude',
 			'../resources/starsassets/dude.png',
@@ -67,7 +69,7 @@ class PlatformScene extends Phaser.Scene {
 			this.player = this.physics.add.sprite(100, 450, 'dude');
 			//this.player.setBounce(0.2);
 			this.player.setCollideWorldBounds(true);
-			
+
 			this.anims.create({
 				key: 'left',
 				frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
@@ -98,7 +100,11 @@ class PlatformScene extends Phaser.Scene {
 				child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8)));
 		}
 			this.bombs = this.physics.add.group(); // Grup d'enemics
-			this.createBomb(); //Determinar la dificultat
+			this.createBomb();
+
+			this.enemy = this.physics.add.group();
+			this.enemy = this.createEnemy();
+			
 		{	// Definim les col·lisions i interaccions
 			this.physics.add.collider(this.player, this.platforms);
 			this.physics.add.collider(this.stars, this.platforms);
@@ -108,6 +114,9 @@ class PlatformScene extends Phaser.Scene {
 
 			this.physics.add.collider(this.bombs, this.platforms);
 			this.physics.add.collider(this.player, this.bombs, 
+				(body1, body2)=>this.hitBomb(body1, body2));
+			
+			this.physics.add.collider(this.player, this.enemy, 
 				(body1, body2)=>this.hitBomb(body1, body2));
 		}
 		{ // UI
@@ -281,7 +290,19 @@ class PlatformScene extends Phaser.Scene {
 		
 		}
 		
+		const directionX = this.player.x - this.enemy.x;
+		const directionY = this.player.y - this.enemy.y;
 
+		// Normalize the direction vector
+		const length = Math.sqrt(directionX * directionX + directionY * directionY);
+		const normalizedDirectionX = directionX / length;
+		const normalizedDirectionY = directionY / length;
+
+		// Set the enemy's velocity based on the normalized direction vector
+		const speed = 100; // Adjust the speed as needed
+		const enemicX = normalizedDirectionX * speed;
+		const enemicY = normalizedDirectionY * speed;
+		this.enemy.setVelocity(enemicX, enemicY);
 		
 	}
 	Dash(distance){
@@ -363,4 +384,13 @@ class PlatformScene extends Phaser.Scene {
 			this.player.y = gameState.posY;
         }
     }
+	createEnemy() {
+		var enemic = this.enemy.create(16, 16, 'enemic');
+		enemic.setCollideWorldBounds(true);
+
+		const scaleFactor = 0.1;
+		enemic.setScale(scaleFactor);
+
+		return enemic;
+	}
 }
