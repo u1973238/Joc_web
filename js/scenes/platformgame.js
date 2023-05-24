@@ -127,13 +127,24 @@ class PlatformScene extends Phaser.Scene {
 		this.resumeButton.on('pointerdown', () => {
 			this.resumeGame();
 		});
+		this.resumeButton.on('pointerover', () => {
+			this.resumeButton.setFill('#ff0000');
+		});
+		this.resumeButton.on('pointerout', () => {
+			this.resumeButton.setFill('#fff');
+		});
 
 		this.menuButton = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 - 40, 'Menu', { fontSize: '32px', fill: '#fff' });
 		this.menuButton.setOrigin(0.5);
 		this.menuButton.setInteractive();
-
 		this.menuButton.on('pointerdown', () => {
 			this.goMenu();
+		});
+		this.menuButton.on('pointerover', () => {
+			this.menuButton.setFill('#ff0000');
+		});
+		this.menuButton.on('pointerout', () => {
+			this.menuButton.setFill('#fff');
 		});
 
 		this.saveButton = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, 'Save', { fontSize: '32px', fill: '#fff' });
@@ -141,6 +152,12 @@ class PlatformScene extends Phaser.Scene {
 		this.saveButton.setInteractive();
 		this.saveButton.on('pointerdown', () => {
 			this.local_save(); 
+		});
+		this.saveButton.on('pointerover', () => {
+			this.saveButton.setFill('#ff0000');
+		});
+		this.saveButton.on('pointerout', () => {
+			this.saveButton.setFill('#fff');
 		});
 
 		this.overlayMenu.setVisible(false);
