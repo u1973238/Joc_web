@@ -135,7 +135,7 @@ class PlatformScene extends Phaser.Scene {
 		  });
 
 		this.overlayMenu = this.add.graphics();
-		this.overlayMenu.fillStyle(0x000000, 0.5); // Black color with 50% opacity
+		this.overlayMenu.fillStyle(0x000000, 0.5);
 		this.overlayMenu.fillRect(0, 0, this.cameras.main.width, this.cameras.main.height);
 		
 		this.PauseTitle = this.add.text(this.cameras.main.width / 2 - 210 , this.cameras.main.height / 2 - 250, 'PAUSE', { fontSize: '70px', fill: '#fff' });
