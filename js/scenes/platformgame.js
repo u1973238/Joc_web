@@ -68,7 +68,6 @@ class PlatformScene extends Phaser.Scene {
 		}
 		{	// Creem player i definim animacions
 			this.player = this.physics.add.sprite(100, 450, 'dude');
-			//this.player.setBounce(0.2);
 			this.player.setCollideWorldBounds(true);
 
 			this.anims.create({
@@ -311,20 +310,23 @@ class PlatformScene extends Phaser.Scene {
 			}
 		
 		}
+		{//Enemy chase
+			const directionX = this.player.x - this.enemy.x;
+			const directionY = this.player.y - this.enemy.y;
+
+			const length = Math.sqrt(directionX * directionX + directionY * directionY);
+			const normalizedDirectionX = directionX / length;
+			const normalizedDirectionY = directionY / length;
+
+			const speed = 100 * this.dif_mult; 
+			const enemicX = normalizedDirectionX * speed;
+			const enemicY = normalizedDirectionY * speed;
+			this.enemy.setVelocity(enemicX, enemicY);
+		}
 		
-		const directionX = this.player.x - this.enemy.x;
-		const directionY = this.player.y - this.enemy.y;
-
-		const length = Math.sqrt(directionX * directionX + directionY * directionY);
-		const normalizedDirectionX = directionX / length;
-		const normalizedDirectionY = directionY / length;
-
-		const speed = 100 * this.dif_mult; 
-		const enemicX = normalizedDirectionX * speed;
-		const enemicY = normalizedDirectionY * speed;
-		this.enemy.setVelocity(enemicX, enemicY);
 		
 	}
+
 	Dash(distance){
 		const newX = this.player.x - distance;
 		this.player.setX(newX);
@@ -374,6 +376,7 @@ class PlatformScene extends Phaser.Scene {
 	resumeGame() {
 		this.pause = false;
 		this.physics.resume();
+		this.PauseTitle.setVisible(false);
 		this.overlayMenu.setVisible(false);
 		this.resumeButton.setVisible(false);
 		this.menuButton.setVisible(false);
@@ -382,35 +385,12 @@ class PlatformScene extends Phaser.Scene {
 	goMenu() {
 		loadpage("../Index.html");
 	}
-	saveGameState() {
-        const gameState = {
-			username: this.username,
-            score: this.score,
-			posX: this.player.x,
-			posY: this.player.y
-        };
-
-        const gameStateJSON = JSON.stringify(gameState);
-        localStorage.setItem('gameState', gameStateJSON);
-    }
-	loadGameState() {
-        const gameStateJSON = localStorage.getItem('gameState');
-
-        if (gameStateJSON) {
-            const gameState = JSON.parse(gameStateJSON);
-
-			this.username = gameState.username;
-            this.score = gameState.score;
-            this.player.x = gameState.posX;
-			this.player.y = gameState.posY;
-        }
-    }
+	
 	createEnemy() {
 		var enemic = this.enemy.create(16, 16, 'enemic');
 		enemic.setCollideWorldBounds(true);
 
-		const scaleFactor = 0.1;
-		enemic.setScale(scaleFactor);
+		enemic.setScale(0.1);
 
 		return enemic;
 	}
