@@ -1,0 +1,23 @@
+<?xml version="1.0" standalone="no"?>
+<svg width="235" height="300" xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <ellipse cx="150" cy="250" rx="50" ry="25" stroke="transparent" fill="#506274" stroke-width="5" />
+
+        <polygon points="112 234 188 234 150 150" stroke="transparent" fill="rgb(156, 209, 217)"/>
+
+        <ellipse cx="150" cy="240" rx="40" ry="20" stroke="transparent" fill="#c64343" />
+        <polygon points="112 234 188 234 150 200" stroke="transparent" fill="#c64343"/>
+
+        <ellipse cx="150" cy="150" rx="80" ry="30" stroke="transparent" fill="#ff7e00"/>
+        <ellipse cx="150" cy="150" rx="55" ry="20" stroke="transparent" fill="#ffae3e"/>
+        <ellipse cx="150" cy="150" rx="30" ry="15" stroke="transparent" fill="#ffdb92"/>
+        <circle cx="150" cy="150" r="10" stroke="trasparent" fill="#000000"/>
+        
+        <polygon points="112 66 188 66 150 150" stroke="transparent" fill="rgb(156, 209, 217)"/>
+        <polygon points="132 110 168 110 150 150" stroke="transparent" fill="#c64343"/>
+        <ellipse cx="150" cy="110" rx="18" ry="7" stroke="transparent" fill="#c64343" />
+
+        <ellipse cx="150" cy="50" rx="50" ry="25" stroke="transparent" fill="#506274" stroke-width="5" />
+        
+    </g>
+</svg>
