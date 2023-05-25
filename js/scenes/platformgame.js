@@ -327,8 +327,6 @@ class PlatformScene extends Phaser.Scene {
 			const enemicY = normalizedDirectionY * speed;
 			this.enemy.setVelocity(enemicX, enemicY);
 		}
-		
-		
 	}
 
 	Dash(distance){
@@ -358,19 +356,13 @@ class PlatformScene extends Phaser.Scene {
         bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
 	}
 	hitBomb(player, bomb){
-		if(this.isGroundPounding){
-			bomb.disableBody(true, true);
-		}
-		else{
-			if (this.gameOver) 
-				return;
-			this.physics.pause();
-			this.player.setTint(0xff0000);
-			this.player.anims.play('turn');
-			this.gameOver = true;
-			setTimeout(()=>loadpage("../Index.html"), 1000);
-		}
-
+		if (this.gameOver) 
+			return;
+		this.physics.pause();
+		this.player.setTint(0xff0000);
+		this.player.anims.play('turn');
+		this.gameOver = true;
+		setTimeout(()=>loadpage("../Index.html"), 1000);
 	}
 	hitEnemy(player, enemy){
 		if(this.isGroundPounding){
@@ -381,10 +373,10 @@ class PlatformScene extends Phaser.Scene {
      			setTimeout(() => {
         			enemy.enableBody(true, initialPosition.x, initialPosition.y, true, true);
       			}, this.enemy_stun);
-				this.enemy_stun = this.enemy_stun - 100;
+				this.enemy_stun = this.enemy_stun - 500;
 			}
 			else{
-				enemic.disableBody(true, true);
+				enemy.disableBody(true, true);
 			}
 		}
 		else{
