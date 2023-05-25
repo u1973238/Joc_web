@@ -17,9 +17,11 @@ class PlatformScene extends Phaser.Scene {
 		this.isGroundPounding = false;
 		this.dashKey = null;
 		this.canDash = true;
-		this.DashCooldown = 1000;
+		this.DashCooldown = 2000;
 		this.lastDashTime = 0;
 		this.enemy = null;
+		this.enemy_HP = 1
+		this.enemy_stun = 2000;
 
 		this.local_save = () => {
             let partida = {
@@ -118,7 +120,7 @@ class PlatformScene extends Phaser.Scene {
 				(body1, body2)=>this.hitBomb(body1, body2));
 			
 			this.physics.add.collider(this.player, this.enemy, 
-				(body1, body2)=>this.hitBomb(body1, body2));
+				(body1, body2)=>this.hitEnemy(body1, body2));
 		}
 		{ // UI
 			this.scoreText = this.add.text(16, 16, 'Score: 0', 
@@ -228,6 +230,8 @@ class PlatformScene extends Phaser.Scene {
 				case "hard":
 					this.dif_mult = 3;
 			}
+
+			this.enemy_HP = this.enemy_HP + this.dif_mult;
 					
 			this.username = localStorage.getItem("username","unknown");
 			this.score = localStorage.getItem("score",0);
@@ -367,6 +371,31 @@ class PlatformScene extends Phaser.Scene {
 			setTimeout(()=>loadpage("../Index.html"), 1000);
 		}
 
+	}
+	hitEnemy(player, enemy){
+		if(this.isGroundPounding){
+			if(this.enemy_HP > 0){
+				const initialPosition = { x: this.enemy.x, y: this.enemy.y };
+   				enemy.disableBody(true, true);
+      			this.enemy_HP = this.enemy_HP - 1;
+     			setTimeout(() => {
+        			enemy.enableBody(true, initialPosition.x, initialPosition.y, true, true);
+      			}, this.enemy_stun);
+				this.enemy_stun = this.enemy_stun - 100;
+			}
+			else{
+				enemic.disableBody(true, true);
+			}
+		}
+		else{
+			if (this.gameOver) 
+				return;
+			this.physics.pause();
+			this.player.setTint(0xff0000);
+			this.player.anims.play('turn');
+			this.gameOver = true;
+			setTimeout(()=>loadpage("../Index.html"), 1000);
+		}
 	}
 	enableAllStars(){
 		this.stars.children.iterate(child => 
