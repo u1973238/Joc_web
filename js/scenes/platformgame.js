@@ -344,7 +344,7 @@ class PlatformScene extends Phaser.Scene {
 		this.scoreText.setText('Score: ' + this.score);
 		if (this.stars.countActive(true) === 0){
 			this.enableAllStars();
-			this.dif_mult = this.dif_mult + 0.5
+			this.dif_mult = this.dif_mult + 0.1
 			this.createBomb();
 		}
 	}
