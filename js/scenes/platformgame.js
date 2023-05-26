@@ -273,8 +273,7 @@ class PlatformScene extends Phaser.Scene {
 				else{
 					this.player.setVelocityX(0);
 					this.player.anims.play('turn');
-			}
-			
+				}
 			}
 
 			if (Phaser.Input.Keyboard.JustDown(this.cursors.up)){
