@@ -28,7 +28,10 @@ class PlatformScene extends Phaser.Scene {
                 username: this.username,
                 score: this.score,
 				PosX: this.player.x,
-				PosY: this.player.y
+				PosY: this.player.y,
+				EnPosX: this.enemy.x,
+				EnPosY: this.enemy.y,
+				Dif: this.dif_mult
             };
 			console.log(partida);
             let arrayPartides = [];
@@ -209,7 +212,10 @@ class PlatformScene extends Phaser.Scene {
 			this.username = l_partida.username,
 			this.score = l_partida.score,
 			this.player.x = l_partida.PosX,
-			this.player.y = l_partida.PosY
+			this.player.y = l_partida.PosY,
+			this.enemy.x = l_partida.EnPosX,
+			this.enemy.y = l_partida.EnPosY,
+			this.dif_mult = l_partida.dif_mult,
 			this.scoreText.setText('Score: ' + this.score);
 			console.log("partida found");
 		}
