@@ -202,7 +202,6 @@ class PlatformScene extends Phaser.Scene {
 
 		if (sessionStorage.idPartida && localStorage.partides)
 		{
-			console.log("exiteix la partida");
 			let arrayPartides = JSON.parse(localStorage.partides);
 			if (sessionStorage.idPartida < arrayPartides.length)
 				l_partida = arrayPartides[sessionStorage.idPartida];
@@ -217,7 +216,6 @@ class PlatformScene extends Phaser.Scene {
 			this.enemy.y = l_partida.EnPosY,
 			this.dif_mult = l_partida.dif_mult,
 			this.scoreText.setText('Score: ' + this.score);
-			console.log("partida found");
 		}
 		else{
 			var json = localStorage.getItem("config") || '{"dificulty": "hard"}';
