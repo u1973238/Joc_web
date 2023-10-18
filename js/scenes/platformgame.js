@@ -31,6 +31,7 @@ class PlatformScene extends Phaser.Scene {
 				PosY: this.player.y,
 				EnPosX: this.enemy.x,
 				EnPosY: this.enemy.y,
+				EnHP: this.enemy_HP,
 				Dif: this.dif_mult
             };
 			console.log(partida);
@@ -214,6 +215,7 @@ class PlatformScene extends Phaser.Scene {
 			this.player.y = l_partida.PosY,
 			this.enemy.x = l_partida.EnPosX,
 			this.enemy.y = l_partida.EnPosY,
+			this.enemy_HP = l_partida.EnHP,
 			this.dif_mult = l_partida.dif_mult,
 			this.scoreText.setText('Score: ' + this.score);
 		}
